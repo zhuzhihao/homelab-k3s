@@ -1,6 +1,6 @@
 #!/bin/bash
 
-helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --version 1.3.2
+helm install longhorn longhorn/longhorn --wait --namespace longhorn-system --create-namespace --version 1.3.2
 
 cat <<EOF |kubectl apply -f -
 apiVersion: networking.k8s.io/v1

@@ -20,6 +20,7 @@ spec:
 EOF
 kubectl patch -n loki deployment loki-kube-state-metrics --type merge --patch-file=$TMP_FILE 
 rm $TMP_FILE
+kubectl -n loki get secret loki-grafana -o go-template='{{range $k,$v := .data}}{{printf "%s: " $k}}{{if not $v}}{{$v}}{{else}}{{$v | base64decode}}{{end}}{{"\n"}}{{end}}'
 
 cat <<EOF2 | kubectl apply -f -
 apiVersion: networking.k8s.io/v1
