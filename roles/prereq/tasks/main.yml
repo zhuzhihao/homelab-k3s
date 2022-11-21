@@ -52,3 +52,17 @@
     path: /etc/sudoers
     validate: 'visudo -cf %s'
   when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux']
+
+- name: Wait for cloud-init to finish
+  shell: |
+    which cloud-init && cloud-init status --wait || true
+  become: yes
+  changed_when: false
+
+- name: Install required packages
+  apt:
+    name:
+      - open-iscsi
+    update_cache: yes
+    state: present
+  when: ansible_distribution in ['Ubuntu', 'Debian']
