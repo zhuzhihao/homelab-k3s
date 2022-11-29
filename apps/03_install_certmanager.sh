@@ -20,12 +20,12 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: traefik.home.local
+  name: home.local
   namespace: kube-system
 spec:
   dnsNames:
-    - traefik.home.local
-  secretName: traefik.home.local
+    - home.local
+  secretName: home.local
   issuerRef:
     name: selfsigned
     kind: ClusterIssuer
