@@ -38,7 +38,7 @@ spec:
     - web
     - websecure
   routes:
-    - match: Host(\`traefik-k3s.home.local\`) # Hostname to match
+    - match: Host(\`traefik.k3s.home\`) # Hostname to match
       kind: Rule
       services: # Service to redirect requests to
         - name: api@internal # Special service created by Traefik pod

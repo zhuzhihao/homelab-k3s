@@ -90,15 +90,15 @@ config: |
     rewrites:
     - domain: mco.lbsg.net
       answer: 192.168.0.178
-    - domain: longhorn-k3s.home.local
+    - domain: longhorn.k3s.home
       answer: $TRAEFIK_EXTERNAL_IP
-    - domain: portainer-k3s.home.local
+    - domain: portainer.k3s.home
       answer: $TRAEFIK_EXTERNAL_IP
-    - domain: grafana-k3s.home.local
+    - domain: grafana.k3s.home
       answer: $TRAEFIK_EXTERNAL_IP
-    - domain: hass-k3s.home.local
+    - domain: hass.k3s.home
       answer: $TRAEFIK_EXTERNAL_IP
-    - domain: adguard-k3s.home.local
+    - domain: adguard.k3s.home
       answer: $TRAEFIK_EXTERNAL_IP
     blocked_services: []
     upstream_timeout: 10s
@@ -182,7 +182,7 @@ metadata:
   namespace: homelab
 spec:
   rules:
-  - host: adguard-k3s.home.local
+  - host: adguard.k3s.home
     http:
       paths:
       - backend:

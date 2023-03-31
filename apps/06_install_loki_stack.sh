@@ -30,7 +30,7 @@ metadata:
   namespace: loki
 spec:
   rules:
-  - host: grafana-k3s.home.local
+  - host: grafana.k3s.home
     http:
       paths:
       - backend:

@@ -20,11 +20,11 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: home.local
+  name: k3s.home
   namespace: kube-system
 spec:
   dnsNames:
-    - home.local
+    - k3s.home
   secretName: home.local
   issuerRef:
     name: selfsigned

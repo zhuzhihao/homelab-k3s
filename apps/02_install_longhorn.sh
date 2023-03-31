@@ -11,7 +11,7 @@ metadata:
   namespace: longhorn-system
 spec:
   rules:
-  - host: longhorn-k3s.home.local
+  - host: longhorn.k3s.home
     http:
       paths:
       - backend:

@@ -23,13 +23,13 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(\`argocd-k3s.home.local\`)
+      match: Host(\`argocd.k3s.home\`)
       priority: 10
       services:
         - name: argocd-server
           port: 80
     - kind: Rule
-      match: Host(\`argocd-k3s.home.local\`) && Headers(\`Content-Type\`, \`application/grpc\`)
+      match: Host(\`argocd.k3s.home\`) && Headers(\`Content-Type\`, \`application/grpc\`)
       priority: 11
       services:
         - name: argocd-server
@@ -49,7 +49,7 @@ else
              --set service.type=ClusterIP  \
              --set tls.force=false  \
              --set ingress.enabled=true \
-             --set ingress.hosts[0].host=portainer-k3s.home.local \
+             --set ingress.hosts[0].host=portainer.k3s.home \
              --set ingress.hosts[0].paths[0].path="/" \
              --set persistence.size=2Gi
 
