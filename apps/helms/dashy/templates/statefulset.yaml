@@ -5,6 +5,7 @@ metadata:
   labels:
     {{- include "dashy.labels" . | nindent 4 }}
 spec:
+  serviceName: {{ include "dashy.fullname" . }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
