@@ -72,7 +72,7 @@ primary:
   persistence:
     enabled: true
     existingClaim: ""
-    mountPath: /bean
+    mountPath: /beans
     subPath: ""
     storageClass: ""
     accessModes:
