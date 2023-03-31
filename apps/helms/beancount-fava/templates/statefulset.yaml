@@ -51,15 +51,15 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      volumes:
-  {{- if and .Values.primary.persistence.enabled .Values.primary.persistence.existingClaim }}
-        - name: data
-          persistentVolumeClaim:
-            claimName: {{ tpl .Values.primary.persistence.existingClaim $ }}
-  {{- else if not .Values.primary.persistence.enabled }}
-        - name: data
-          emptyDir: {}
-  {{- else }}
+        volumes:
+{{- if and .Values.primary.persistence.enabled .Values.primary.persistence.existingClaim }}
+          - name: data
+            persistentVolumeClaim:
+              claimName: {{ tpl .Values.primary.persistence.existingClaim $ }}
+{{- else if not .Values.primary.persistence.enabled }}
+          - name: data
+            emptyDir: {}
+{{- else }}
   volumeClaimTemplates:
     - metadata:
         name: data
