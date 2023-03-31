@@ -34,6 +34,11 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: https_proxy
+              value: "http://proxy.home.local:10809"
+            - name: http_proxy
+              value: "http://proxy.home.local:10809"
           volumeMounts:
             - mountPath: {{ .Values.primary.persistence.mountPath }}
               name: data
