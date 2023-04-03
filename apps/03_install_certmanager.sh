@@ -12,21 +12,15 @@ cat <<EOF |kubectl apply -f -
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: selfsigned
+  name: letsencrypt-staging
 spec:
-  selfSigned: {}
-
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: k3s.home
-  namespace: kube-system
-spec:
-  dnsNames:
-    - k3s.home
-  secretName: home.local
-  issuerRef:
-    name: selfsigned
-    kind: ClusterIssuer
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: abcde12345.z@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - http01:
+          ingress:
+            class: traefik
 EOF
