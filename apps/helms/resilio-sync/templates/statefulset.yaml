@@ -51,17 +51,19 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
-            command:
-              - bash 
-              - "-c" 
-              - | 
-                wget {{ include "resilio-sync.fullname" . }}:{{ .Values.service.port }} 2>&1 | grep -i Unauthorized'"
+            exec:
+              command:
+                - bash 
+                - "-c" 
+                - | 
+                  wget {{ include "resilio-sync.fullname" . }}:{{ .Values.service.port }} 2>&1 | grep -i Unauthorized'"
           readinessProbe:
-            command:
-              - bash 
-              - "-c" 
-              - | 
-                wget {{ include "resilio-sync.fullname" . }}:{{ .Values.service.port }} 2>&1 | grep -i Unauthorized'"
+            exec:
+              command:
+                - bash 
+                - "-c" 
+                - | 
+                  wget {{ include "resilio-sync.fullname" . }}:{{ .Values.service.port }} 2>&1 | grep -i Unauthorized'"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
