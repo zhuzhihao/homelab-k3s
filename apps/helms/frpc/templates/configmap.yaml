@@ -8,8 +8,8 @@ data:
     server_addr = {{ .Values.frpc.server_addr }}
     server_port = {{ .Values.frpc.server_port }}
     token = {{ .Values.frpc.token }}
-    log_level = warning
-    log_max_days = 3
+    log_level = info
+    log_max_days = 1
 
     [traefik]
     type = tcp
