@@ -44,7 +44,7 @@ ingress:
   enabled: true
   className: "traefik"
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-production
     # kubernetes.io/ingress.class: traefik
     # kubernetes.io/tls-acme: "true"
   hosts:
@@ -57,7 +57,7 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: letsencrypt-staging
+    - secretName: letsencrypt-production
       hosts:
         - dashboard.zhuzhihao.me
 
