@@ -89,10 +89,8 @@ config: |
     cache_time: 30
     rewrites:
     - domain: mco.lbsg.net
-      answer: 192.168.0.178
-    - domain: longhorn.k3s.home
       answer: $TRAEFIK_EXTERNAL_IP
-    - domain: portainer.k3s.home
+    - domain: longhorn.k3s.home
       answer: $TRAEFIK_EXTERNAL_IP
     - domain: grafana.k3s.home
       answer: $TRAEFIK_EXTERNAL_IP
@@ -100,6 +98,10 @@ config: |
       answer: $TRAEFIK_EXTERNAL_IP
     - domain: adguard.k3s.home
       answer: $TRAEFIK_EXTERNAL_IP
+    - domain: argocd.k3s.home
+      answer: $TRAEFIK_EXTERNAL_IP
+    - domain: dashboard.k3s.home
+      answer: $TRAEFIK_EXTERNAL_IP      
     blocked_services: []
     upstream_timeout: 10s
     private_networks: []

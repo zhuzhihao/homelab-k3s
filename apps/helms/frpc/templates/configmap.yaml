@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  ini: |
+    [common]
+    server_addr = {{ .Values.frpc.server_addr }}
+    server_port = {{ .Values.frpc.server_port }}
+    token = {{ .Values.frpc.token }}
+    log_level = warning
+    log_max_days = 3
+
+    [traefik]
+    type = tcp
+    local_ip = traefik.traefik
+    local_port = 80
+    remote_port = 80
+
+    [traefik-secure]
+    type = tcp
+    local_ip = traefik.traefik
+    local_port = 443
+    remote_port = 443

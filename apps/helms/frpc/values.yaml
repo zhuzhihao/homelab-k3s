@@ -1,18 +1,23 @@
-# Default values for dashy.
+# Default values for frpc.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: lissy93/dashy
+  repository: snowdreamtech/frpc
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "2.1.1"
+  tag: "0.48.0"
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+frpc:
+  server_addr: ""
+  server_port: ""
+  token: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -36,57 +41,17 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
-  type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: true
-  className: "traefik"
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
-    # kubernetes.io/ingress.class: traefik
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: dashboard.k3s.home
-      paths:
-        - path: /
-          pathType: Prefix
-    - host: dashboard.zhuzhihao.me
-      paths:
-        - path: /
-          pathType: Prefix
-  tls:
-    - secretName: letsencrypt-staging
-      hosts:
-        - dashboard.zhuzhihao.me
-
-resources:
+resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: 500m
-    memory: 256Mi
-  requests:
-    cpu: 200m
-    memory: 128Mi
-
-primary:
-  persistence:
-    enabled: true
-    existingClaim: ""
-    mountPath: /app/public/
-    subPath: ""
-    storageClass: ""
-    accessModes:
-      - ReadWriteOnce
-    size: 1Gi
-    annotations: {}
-    labels: {}
-    selector: {}
-    dataSource: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 autoscaling:
   enabled: false
