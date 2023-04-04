@@ -39,6 +39,19 @@ spec:
               name: config
             - mountPath: {{ .Values.primary.nfs_storage.mountPath }}
               name: downloads
+          env:
+            - name: TZ
+              value: "Asia/Shanghai"
+            - name: TemPath
+              value: "/downloads"
+            - name: SavePath
+              value: "/downloads"
+            - name: PGID
+              value: 1000
+            - name: PUID
+              value: 1000
+            - name: WEBUI_PORT
+              value: 8080
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
