@@ -35,6 +35,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/frp/
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Release.Name }}-configmap
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

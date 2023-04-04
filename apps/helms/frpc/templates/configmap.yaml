@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-configmap
 data:
-  ini: |
+  frpc.ini: |
     [common]
     server_addr = {{ .Values.frpc.server_addr }}
     server_port = {{ .Values.frpc.server_port }}
