@@ -10,6 +10,8 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['wget']
-      args: ['{{ include "resilio-sync.fullname" . }}:{{ .Values.service.port }}']
+      command: ['/bin/sh']
+      args: [ 
+        '-c',
+        'wget {{ include "resilio-sync.fullname" . }}:{{ .Values.service.port }} 2>&1 | grep -i Unauthorized']
   restartPolicy: Never
