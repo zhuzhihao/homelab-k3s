@@ -55,15 +55,13 @@ spec:
               command:
                 - bash 
                 - "-c" 
-                - | 
-                  wget {{ include "resilio-sync.fullname" . }}:{{ .Values.service.port }} 2>&1 | grep -i Unauthorized'"
+                - wget {{ include "resilio-sync.fullname" . }}:{{ .Values.service.port }} 2>&1 | grep -i Unauthorized'
           readinessProbe:
             exec:
               command:
                 - bash 
                 - "-c" 
-                - | 
-                  wget {{ include "resilio-sync.fullname" . }}:{{ .Values.service.port }} 2>&1 | grep -i Unauthorized'"
+                - wget {{ include "resilio-sync.fullname" . }}:{{ .Values.service.port }} 2>&1 | grep -i Unauthorized'
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
