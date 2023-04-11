@@ -11,12 +11,12 @@ spec:
   type: LoadBalancer
   ports:
     - port: 7890
-      targetPort: http_proxy
+      targetPort: http-proxy
       protocol: TCP
-      name: http_proxy
+      name: http-proxy
     - port: 7891
-      targetPort: socks_proxy
+      targetPort: socks-proxy
       protocol: TCP
-      name: socks_proxy
+      name: socks-proxy
   selector:
     {{- include "clash.selectorLabels" . | nindent 4 }}

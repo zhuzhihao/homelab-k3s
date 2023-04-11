@@ -34,10 +34,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http_proxy
+            - name: http-proxy
               containerPort: 7890
               protocol: TCP
-            - name: socks_proxy
+            - name: socks-proxy
               containerPort: 7891
               protocol: TCP
             - name: admin
