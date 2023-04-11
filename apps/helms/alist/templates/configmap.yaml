@@ -5,3 +5,5 @@ metadata:
 data:
   mytoken.txt: |
     {{ .Values.aliyun.token }}
+  myopentoken.txt: |
+    {{ .Values.aliyun.opentoken }}

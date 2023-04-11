@@ -58,6 +58,7 @@ ingress:
 
 aliyun:
   token: ""
+  opentoken: ""
 
 resources: 
   limits:
