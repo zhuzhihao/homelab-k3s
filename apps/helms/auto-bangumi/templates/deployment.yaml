@@ -34,23 +34,23 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: INTERVAL_TIME
+            - name: AB_INTERVAL_TIME
               value: "{{ .Values.config.INTERVAL_TIME }}"
-            - name: DOWNLOADER_HOST
+            - name: AB_DOWNLOADER_HOST
               value: "{{ .Values.config.DOWNLOADER_HOST }}"
-            - name: DOWNLOADER_USERNAME
+            - name: AB_DOWNLOADER_USERNAME
               value: "{{ .Values.config.DOWNLOADER_USERNAME }}"
-            - name: DOWNLOADER_PASSWORD
+            - name: AB_DOWNLOADER_PASSWORD
               value: "{{ .Values.config.DOWNLOADER_PASSWORD }}"
-            - name: METHOD
+            - name: AB_METHOD
               value: "{{ .Values.config.METHOD }}"
-            - name: GROUP_TAG
+            - name: AB_GROUP_TAG
               value: "{{ .Values.config.GROUP_TAG }}"
-            - name: NOT_CONTAIN
+            - name: AB_NOT_CONTAIN
               value: "{{ .Values.config.NOT_CONTAIN }}"
-            - name: DOWNLOAD_PATH
+            - name: AB_DOWNLOAD_PATH
               value: "{{ .Values.config.DOWNLOAD_PATH }}"
-            - name: RSS
+            - name: AB_RSS
               value: "{{ .Values.config.RSS }}"
           ports:
             - name: http
