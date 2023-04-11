@@ -1,6 +1,7 @@
 #!/bin/bash
 
 TRAEFIK_EXTERNAL_IP=$(kubectl get svc -n traefik -o=jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}")
+K3S_NODE_IP=$(kubectl get EndpointSlice -n default -o=jsonpath="{.items[0].endpoints[0].addresses[0]}")
 
 cat <<EOF >adguard-home-values.yaml
 ---
@@ -89,19 +90,9 @@ config: |
     cache_time: 30
     rewrites:
     - domain: mco.lbsg.net
-      answer: $TRAEFIK_EXTERNAL_IP
-    - domain: longhorn.k3s.home
-      answer: $TRAEFIK_EXTERNAL_IP
-    - domain: grafana.k3s.home
-      answer: $TRAEFIK_EXTERNAL_IP
-    - domain: hass.k3s.home
-      answer: $TRAEFIK_EXTERNAL_IP
-    - domain: adguard.k3s.home
-      answer: $TRAEFIK_EXTERNAL_IP
-    - domain: argocd.k3s.home
-      answer: $TRAEFIK_EXTERNAL_IP
-    - domain: dashboard.k3s.home
-      answer: $TRAEFIK_EXTERNAL_IP      
+      answer: $K3S_NODE_IP
+    - domain: *.k3s.home
+      answer: $TRAEFIK_EXTERNAL_IP  
     blocked_services: []
     upstream_timeout: 10s
     private_networks: []
