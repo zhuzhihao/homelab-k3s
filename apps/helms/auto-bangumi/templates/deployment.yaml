@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "auto-bangumi.fullname" . }}
+  labels:
+    {{- include "auto-bangumi.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "auto-bangumi.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "auto-bangumi.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "auto-bangumi.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: INTERVAL_TIME
+              value: "{{ .Values.config.INTERVAL_TIME }}"
+            - name: DOWNLOADER_HOST
+              value: "{{ .Values.config.DOWNLOADER_HOST }}"
+            - name: DOWNLOADER_USERNAME
+              value: "{{ .Values.config.DOWNLOADER_USERNAME }}"
+            - name: DOWNLOADER_PASSWORD
+              value: "{{ .Values.config.DOWNLOADER_PASSWORD }}"
+            - name: METHOD
+              value: "{{ .Values.config.METHOD }}"
+            - name: GROUP_TAG
+              value: "{{ .Values.config.GROUP_TAG }}"
+            - name: NOT_CONTAIN
+              value: "{{ .Values.config.NOT_CONTAIN }}"
+            - name: DOWNLOAD_PATH
+              value: "{{ .Values.config.DOWNLOAD_PATH }}"
+            - name: RSS
+              value: "{{ .Values.config.RSS }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
