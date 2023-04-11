@@ -59,6 +59,7 @@ ingress:
 aliyun:
   token: ""
   opentoken: ""
+  temp_transfer_folder_id: ""
 
 resources: 
   limits:

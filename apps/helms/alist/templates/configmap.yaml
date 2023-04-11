@@ -7,3 +7,5 @@ data:
     {{ .Values.aliyun.token }}
   myopentoken.txt: |
     {{ .Values.aliyun.opentoken }}
+  temp_transfer_folder_id.txt: |
+    {{ .Values.aliyun.temp_transfer_folder_id }}
