@@ -3,7 +3,6 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ include "clash.fullname" . }}-pv-claim
 spec:
-  storageClassName: ""
   accessModes:
     - ReadWriteOnce
   resources:
