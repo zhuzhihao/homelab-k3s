@@ -56,10 +56,10 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls:
-    - secretName: letsencrypt-production
-      hosts:
-        - dashboard.zhuzhihao.me
+  tls: []
+  #   - secretName: letsencrypt-production
+  #     hosts:
+  #       - dashboard.zhuzhihao.me
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious

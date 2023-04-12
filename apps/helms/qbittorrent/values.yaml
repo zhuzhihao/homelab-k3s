@@ -56,10 +56,10 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls:
-    - secretName: letsencrypt-qb
-      hosts:
-        - qb.zhuzhihao.me
+  tls: []
+    # - secretName: letsencrypt-qb
+    #   hosts:
+    #     - qb.zhuzhihao.me
 
 resources: 
   limits:

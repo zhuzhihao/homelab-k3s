@@ -56,10 +56,10 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls:
-    - secretName: letsencrypt-vw
-      hosts:
-        - vw.zhuzhihao.me
+  tls: []
+    # - secretName: letsencrypt-vw
+    #   hosts:
+    #     - vw.zhuzhihao.me
 
 resources: 
   limits:

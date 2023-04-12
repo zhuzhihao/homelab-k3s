@@ -25,7 +25,7 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls:
-   - secretName: letsencrypt-hass
-     hosts:
-       - hass.zhuzhihao.me
+  tls: []
+  #  - secretName: letsencrypt-hass
+  #    hosts:
+  #      - hass.zhuzhihao.me
