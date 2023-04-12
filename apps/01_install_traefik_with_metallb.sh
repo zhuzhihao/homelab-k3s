@@ -11,6 +11,16 @@ metadata:
 spec:
   addresses:
   - 192.168.0.35-192.168.0.39
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: service-pool
+  namespace: metallb
+spec:
+  addresses:
+  - 192.168.0.4-192.168.0.10
+  autoAssign: false
 
 ---
 apiVersion: metallb.io/v1beta1
@@ -21,6 +31,7 @@ metadata:
 spec:
   ipAddressPools:
   - homelab-pool
+  - service-pool
 EOF
 
 # publishedservice is added so that traefik ingresses can be monitored correctly in argocd
