@@ -83,6 +83,12 @@ primary:
     selector: {}
     dataSource: {}
 
+minecraft:
+  SERVER_NAME: ""
+  GAMEMODE: survival
+  DIFFICULTY: normal
+  OPS: ""
+
 autoscaling:
   enabled: false
   minReplicas: 1

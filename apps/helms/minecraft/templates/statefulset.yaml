@@ -41,6 +41,19 @@ spec:
             - name: minecraft
               containerPort: {{ .Values.service.port }}
               protocol: UDP
+          env:
+            - name: TZ
+              value: 'Shanghai/Asia'
+            - name: SERVER_NAME
+              value: {{ .Values.minecraft.SERVER_NAME }}
+            - name: EULA
+              value: "TRUE"
+            - name: GAMEMODE
+              value: {{ .Values.minecraft.GAMEMODE }}
+            - name: DIFFICULTY
+              value: {{ .Values.minecraft.DIFFICULTY }}
+            - name: OPS
+              value: {{ .Values.minecraft.OPS }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
