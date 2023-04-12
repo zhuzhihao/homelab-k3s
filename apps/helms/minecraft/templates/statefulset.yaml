@@ -43,7 +43,7 @@ spec:
               protocol: UDP
           env:
             - name: TZ
-              value: 'Shanghai/Asia'
+              value: "Shanghai/Asia"
             - name: SERVER_NAME
               value: {{ .Values.minecraft.SERVER_NAME }}
             - name: EULA

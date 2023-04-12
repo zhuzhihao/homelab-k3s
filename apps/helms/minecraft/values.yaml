@@ -85,8 +85,8 @@ primary:
 
 minecraft:
   SERVER_NAME: ""
-  GAMEMODE: survival
-  DIFFICULTY: normal
+  GAMEMODE: "survival"
+  DIFFICULTY: "normal"
   OPS: ""
 
 autoscaling:
