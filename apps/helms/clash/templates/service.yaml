@@ -17,7 +17,7 @@ spec:
     - port: 10809
       targetPort: http-proxy
       protocol: TCP
-      name: http-proxy
+      name: http-proxy-alternative1
     - port: 7891
       targetPort: socks-proxy
       protocol: TCP
