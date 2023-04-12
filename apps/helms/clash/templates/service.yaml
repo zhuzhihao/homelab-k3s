@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "clash.labels" . | nindent 4 }}
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.0.39
+    metallb.universe.tf/loadBalancerIPs: {{ .Values.service.ipaddress }}
 
 spec:
   type: LoadBalancer
