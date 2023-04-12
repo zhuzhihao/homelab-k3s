@@ -8,7 +8,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      nodeport: {{ .Values.service.port }}
+      nodePort: {{ .Values.service.port }}
       targetPort: minecraft
       protocol: UDP
       name: minecraft
