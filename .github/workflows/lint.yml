@@ -21,11 +21,9 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install test dependencies.
-        run: pip3 install yamllint ansible-lint ansible
+      - name: Helm tool installer
+        uses: Azure/setup-helm@v3
 
-      - name: Run yamllint.
-        run: yamllint .
-
-      - name: Run ansible-lint.
-        run: ansible-lint
+      - name: Lint helm charts
+        working-directory: ./apps/helms
+        run: helm lint *
