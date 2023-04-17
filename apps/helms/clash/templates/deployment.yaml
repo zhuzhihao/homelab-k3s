@@ -57,7 +57,7 @@ spec:
           volumeMounts:
             - mountPath: "/config"
               name: "{{ include "clash.fullname" . }}-pv"
-          args: ["-f", "/config/clash.yaml"]
+          args: ["-f", "{{ .Values.service.configFile }}"]
       volumes:
         - name: {{ include "clash.fullname" . }}-pv
           persistentVolumeClaim:

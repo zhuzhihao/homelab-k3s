@@ -53,6 +53,7 @@ autoscaling:
 
 service:
   ipaddress: ""
+  configFile: "/config/clash.yaml"
 
 nodeSelector: {}
 
