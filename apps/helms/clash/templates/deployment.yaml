@@ -55,7 +55,7 @@ spec:
               command:
                 - '/bin/sh'
                 - '-c'
-                - 'apk add curl && https_proxy=http://localhost:7890 curl https://www.google.com >/dev/null'
+                - 'apk add curl && http_proxy=http://localhost:7890 curl http://google.com/generate_204 >/dev/null'
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
