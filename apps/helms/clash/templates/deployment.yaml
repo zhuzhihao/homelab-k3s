@@ -47,11 +47,15 @@ spec:
             httpGet:
               path: /
               port: admin
-          # readinessProbe:
-          #   exec:
-          #     command:
-          # TODO: try using http proxy to curl, e.g. https://www.google.com
-          #       - 
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 60
+            failureThreshold: 3
+            exec:
+              command:
+                - '/bin/sh'
+                - '-c'
+                - 'apk add curl && https_proxy=http://localhost:7890 curl https://www.google.com >/dev/null'
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
