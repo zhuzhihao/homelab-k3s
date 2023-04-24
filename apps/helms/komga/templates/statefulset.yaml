@@ -47,12 +47,12 @@ spec:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 90
+            initialDelaySeconds: {{ .Values.primary.probeInitialDelay }}
           readinessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 90
+            initialDelaySeconds: {{ .Values.primary.probeInitialDelay }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

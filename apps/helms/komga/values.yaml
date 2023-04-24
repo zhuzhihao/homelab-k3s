@@ -87,6 +87,7 @@ primary:
     server: ""
     path: ""
     mountPath: /data/
+  probeInitialDelay: 120
 
 autoscaling:
   enabled: false
