@@ -63,10 +63,10 @@ aliyun:
 
 resources: 
   limits:
-    cpu: 1
+    cpu: 500m
     memory: 1024Mi
   requests:
-    cpu: 1
+    cpu: 100m
     memory: 512Mi
 
 autoscaling:
