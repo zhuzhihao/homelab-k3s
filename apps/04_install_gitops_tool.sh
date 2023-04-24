@@ -20,6 +20,7 @@ metadata:
   namespace: argocd
 spec:
   entryPoints:
+    - web
     - websecure
   routes:
     - kind: Rule
@@ -35,8 +36,6 @@ spec:
         - name: argocd-server
           port: 80
           scheme: h2c
-  tls:
-    certResolver: home.local
 EOF_ARGOCD
 
   kubectl apply -f $TMP_FILE
