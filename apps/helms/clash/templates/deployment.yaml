@@ -51,6 +51,7 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 60
             failureThreshold: 3
+            timeoutSeconds: 10
             exec:
               command:
                 - '/bin/sh'

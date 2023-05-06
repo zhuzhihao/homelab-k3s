@@ -36,9 +36,9 @@ EOF
 
 # publishedservice is added so that traefik ingresses can be monitored correctly in argocd
 helm install --create-namespace -n traefik traefik traefik/traefik \
- --set="additionalArguments={--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik}" \ 
- --set="providers.kubernetesCRD.allowExternalNameServices=true" \ 
- --set="providers.kubernetesIngress.allowExternalNameServices=true" \ 
+ --set="additionalArguments={--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik}" \
+ --set="providers.kubernetesCRD.allowExternalNameServices=true" \
+ --set="providers.kubernetesIngress.allowExternalNameServices=true" \
  --wait
 
 # enable traefik dashboard
