@@ -56,7 +56,7 @@ spec:
               command:
                 - '/bin/sh'
                 - '-c'
-                - '[ `which curl` ] || (sed -i 's/dl-cdn.alpinelinux.org/mirrors.sjtug.sjtu.edu.cn/g' /etc/apk/repositories && apk add curl) && http_proxy=http://localhost:7890 curl -sf http://google.com/generate_204 >/dev/null'
+                - '[ `which curl` ] || (sed -i "s/dl-cdn.alpinelinux.org/mirrors.sjtug.sjtu.edu.cn/g" /etc/apk/repositories && apk add curl) && http_proxy=http://localhost:7890 curl -sf http://google.com/generate_204 >/dev/null'
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
