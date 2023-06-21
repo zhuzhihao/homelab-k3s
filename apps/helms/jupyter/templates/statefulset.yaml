@@ -36,7 +36,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: JUPYTER_PORT
-              value: 8888
+              value: "8888"
           volumeMounts:
             - mountPath: {{ .Values.primary.persistence.mountPath }}
               name: data
