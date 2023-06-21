@@ -34,6 +34,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: JUPYTER_PORT
+              value: 8888
           volumeMounts:
             - mountPath: {{ .Values.primary.persistence.mountPath }}
               name: data
