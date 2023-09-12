@@ -102,7 +102,7 @@ spec:
             {{- end }}
             - mountPath: /config
               name: config
-            - mountPath: /data
+            - mountPath: /media
               name: data
             - name: dshm
               mountPath: /dev/shm
