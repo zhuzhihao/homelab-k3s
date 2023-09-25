@@ -115,6 +115,15 @@ spec:
             {{- if .Values.resources }}
             {{- toYaml .Values.resources | nindent 12 }}
             {{- end }}
+      initContainers:
+        - name: copy-config-map
+          image: alpine
+          command: ["sh", "-c", "cp /src/config.yml /dst/"]
+          volumeMounts:
+          - mountPath: /src
+            name: config
+          - mountPath: /dst
+            name: data
       volumes:
         - name: config
           configMap:
