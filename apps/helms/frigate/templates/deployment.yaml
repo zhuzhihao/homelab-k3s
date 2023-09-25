@@ -101,8 +101,6 @@ spec:
               name: coral-dev
             {{- end }}
             - mountPath: /config
-              name: config
-            - mountPath: /config
               name: data
             - mountPath: /media
               name: data
