@@ -147,6 +147,7 @@ spec:
             path: {{ .Values.persistence.media.path }}
         {{- else }}
           emptyDir: {}
+        {{- end }}
         - name: dshm
           emptyDir:
             medium: Memory
