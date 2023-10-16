@@ -103,7 +103,7 @@ spec:
             - mountPath: /config
               name: data
             - mountPath: /media
-              name: data
+              name: media
             - name: dshm
               mountPath: /dev/shm
             {{- if .Values.extraVolumeMounts }}{{ toYaml .Values.extraVolumeMounts | trim | nindent 12 }}{{ end }}
@@ -137,6 +137,14 @@ spec:
         {{- if .Values.persistence.data.enabled }}
           persistentVolumeClaim:
             claimName: {{ if .Values.persistence.data.existingClaim }}{{ .Values.persistence.data.existingClaim }}{{- else }}{{ template "frigate.fullname" . }}-data{{- end }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: media
+        {{- if .Values.persistence.media.enabled }}
+          nfs:
+            server: {{ .Values.persistence.media.server }}
+            path: {{ .Values.persistence.media.path }}
         {{- else }}
           emptyDir: {}
         {{- end }}
