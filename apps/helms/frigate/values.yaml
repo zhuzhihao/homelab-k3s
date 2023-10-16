@@ -187,9 +187,9 @@ persistence:
     # -- Do not delete the pvc upon helm uninstall
     skipuninstall: false
   media:
+    enabled: false
     server: ""
     path: ""
-    mountPath: /media/
 
 # -- Set resource limits/requests for the Pod(s)
 resources: {}
