@@ -87,7 +87,7 @@ primary:
     server: ""
     path: ""
     mountPath: /media/
-  probeInitialDelay: 120
+  probeInitialDelay: 20
 
 autoscaling:
   enabled: false

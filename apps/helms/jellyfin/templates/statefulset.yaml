@@ -43,6 +43,11 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          env:
+            - name: https_proxy
+              value: "http://proxy.home.local:10809"
+            - name: http_proxy
+              value: "http://proxy.home.local:10809"
           livenessProbe:
             httpGet:
               path: /
