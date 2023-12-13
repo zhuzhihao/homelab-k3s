@@ -54,10 +54,6 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - name: library
-          nfs:
-            server: {{ .Values.primary.nfs_storage.server }}
-            path: {{ .Values.primary.nfs_storage.path }}
   {{- if and .Values.primary.persistence.enabled .Values.primary.persistence.existingClaim }}
         - name: config
           persistentVolumeClaim:
