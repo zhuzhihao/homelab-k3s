@@ -45,9 +45,9 @@ spec:
               protocol: TCP
           env:
             - name: https_proxy
-              value: "http://proxy.home.local:10809"
+              value: "http://proxy.home.local:7890"
             - name: http_proxy
-              value: "http://proxy.home.local:10809"
+              value: "http://proxy.home.local:7890"
           livenessProbe:
             httpGet:
               path: /
