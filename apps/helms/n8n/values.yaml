@@ -41,8 +41,7 @@ ingress:
   className: ""
   hosts:
     - host: n8n.k3s.home
-      paths:
-        - path: /
+      paths: [/]
 
   tls: []
     # - hosts:
