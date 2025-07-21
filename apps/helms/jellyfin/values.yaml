@@ -87,6 +87,10 @@ primary:
     server: ""
     path: ""
     mountPath: /media/
+  archive_nfs_storage:
+    server: ""
+    path: ""
+    mountPath: /archive/
   probeInitialDelay: 20
 
 autoscaling:

@@ -39,6 +39,8 @@ spec:
               name: config
             - mountPath: {{ .Values.primary.nfs_storage.mountPath }}
               name: library
+            - mountPath: {{ .Values.primary.archive_nfs_storage.mountPath }}
+              name: archive
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -65,6 +67,10 @@ spec:
           nfs:
             server: {{ .Values.primary.nfs_storage.server }}
             path: {{ .Values.primary.nfs_storage.path }}
+        - name: archive
+          nfs:
+            server: {{ .Values.primary.archive_nfs_storage.server }}
+            path: {{ .Values.primary.archive_nfs_storage.path }}
   {{- if and .Values.primary.persistence.enabled .Values.primary.persistence.existingClaim }}
         - name: config
           persistentVolumeClaim:
