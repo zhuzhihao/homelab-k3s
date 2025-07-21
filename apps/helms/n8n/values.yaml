@@ -43,7 +43,7 @@ ingress:
     - host: n8n.k3s.home
       paths:
         - path: /
-          pathType: Prefix
+
   tls: []
     # - hosts:
     #    - workflow.example.com
