@@ -101,7 +101,9 @@ persistence:
 {{- end }}
   data:
     enabled: true
-    existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+    type: nfs
+    server: {{ .Values.immich.persistence.library.nfs_host }}
+    path: {{ .Values.immich.persistence.library.nfs_path }}
 {{- end }}
 
 {{ if .Values.server.enabled }}
