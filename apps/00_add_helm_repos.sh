@@ -8,4 +8,5 @@ helm repo add jetstack https://charts.jetstack.io
 helm repo add metallb https://metallb.github.io/metallb
 helm repo add traefik https://traefik.github.io/charts
 helm repo add k8s-at-home https://k8s-at-home.com/charts/
+helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm repo update
