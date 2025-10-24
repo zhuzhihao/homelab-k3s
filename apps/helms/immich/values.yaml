@@ -24,6 +24,7 @@ controllers:
             secretKeyRef:
               name: immich-postgres-user
               key: password
+          https_proxy: http://proxy.home.local:7890
 immich:
   metrics:
     # Enabling this will create the service monitors needed to monitor immich with the prometheus operator
@@ -88,6 +89,12 @@ server:
         nginx.ingress.kubernetes.io/proxy-body-size: "0"
       hosts:
         - host: immich.k3s.home
+          paths:
+            - path: "/"
+              pathType: Prefix
+              service:
+                identifier: main
+        - host: immich.zhuzhihao.me
           paths:
             - path: "/"
               pathType: Prefix
