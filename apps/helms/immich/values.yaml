@@ -93,6 +93,7 @@ server:
               pathType: Prefix
               service:
                 identifier: main
+                port: http
       tls: []
 
 machine-learning:
