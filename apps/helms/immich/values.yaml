@@ -81,13 +81,16 @@ server:
   ingress:
     main:
       enabled: false
+      className: "traefik"
       annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
         # proxy-body-size is set to 0 to remove the body limit on file uploads
         nginx.ingress.kubernetes.io/proxy-body-size: "0"
       hosts:
         - host: immich.local
           paths:
             - path: "/"
+              pathType: Prefix
               service:
                 identifier: main
       tls: []
