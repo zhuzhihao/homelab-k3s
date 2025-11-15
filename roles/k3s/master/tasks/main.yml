@@ -22,6 +22,7 @@
     owner: root
     group: root
     mode: 0644
+  when: false # configuring registry no longer works, use proxy instead
 
 - name: Enable and check K3s service
   systemd:
