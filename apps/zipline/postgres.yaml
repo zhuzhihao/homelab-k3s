@@ -1,0 +1,22 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: zipline-postgres
+  namespace: zipline
+spec:
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
+  instances: 1
+  managed:
+    roles:
+      - name: zipline
+        superuser: true
+        login: true
+  bootstrap:
+    initdb:
+      database: zipline
+      owner: zipline
+      secret:
+        name: zipline-postgres-user
+ 
+  storage:
+    size: 4Gi
