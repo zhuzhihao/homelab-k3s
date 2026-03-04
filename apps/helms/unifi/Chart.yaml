@@ -1,0 +1,17 @@
+apiVersion: v2
+appVersion: v10.0.162
+description: Ubiquiti Network's Unifi Controller
+home: https://github.com/mkilchhofer/unifi-chart
+icon: https://prd-www-cdn.ubnt.com/static/favicon-152.png
+keywords:
+- ubiquiti
+- unifi
+- mongodb
+kubeVersion: '>=1.18-0'
+maintainers:
+- name: mkilchhofer
+  url: https://github.com/mkilchhofer/
+name: unifi
+sources:
+- https://github.com/jacobalberty/unifi-docker
+version: 1.16.0

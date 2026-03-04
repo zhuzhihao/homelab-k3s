@@ -1,0 +1,50 @@
+{{- if and .Values.controllerService.enabled (not .Values.unifiedService.enabled) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "unifi.fullname" . }}-controller
+  labels:
+    {{- include "unifi.labels" . | nindent 4 }}
+    {{- if .Values.controllerService.labels }}
+    {{- toYaml .Values.controllerService.labels | nindent 4 }}
+    {{- end }}
+  {{- with .Values.controllerService.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+{{- if (or (eq .Values.controllerService.type "ClusterIP") (empty .Values.controllerService.type)) }}
+  type: ClusterIP
+  {{- if .Values.controllerService.clusterIP }}
+  clusterIP: {{ .Values.controllerService.clusterIP }}
+  {{- end }}
+{{- else if eq .Values.controllerService.type "LoadBalancer" }}
+  type: {{ .Values.controllerService.type }}
+  {{- if .Values.controllerService.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.controllerService.loadBalancerIP }}
+  {{- end }}
+  {{- if .Values.controllerService.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+    {{- toYaml .Values.controllerService.loadBalancerSourceRanges | nindent 4 }}
+  {{- end -}}
+{{- else }}
+  type: {{ .Values.controllerService.type }}
+{{- end }}
+  {{- if .Values.controllerService.externalIPs }}
+  externalIPs:
+    {{- toYaml .Values.controllerService.externalIPs | nindent 4 }}
+  {{- end }}
+  {{- if .Values.controllerService.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.controllerService.externalTrafficPolicy }}
+  {{- end }}
+  ports:
+    - port: {{ .Values.controllerService.port }}
+      targetPort: controller
+      protocol: TCP
+      name: controller
+      {{- if (and (eq .Values.controllerService.type "NodePort") (not (empty .Values.controllerService.nodePort))) }}
+      nodePort: {{.Values.controllerService.nodePort}}
+      {{- end }}
+  selector:
+    {{- include "unifi.selectorLabels" . | nindent 4 }}
+{{- end }}

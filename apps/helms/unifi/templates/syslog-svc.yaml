@@ -1,0 +1,50 @@
+{{- if and .Values.syslogService.enabled (not .Values.unifiedService.enabled) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "unifi.fullname" . }}-syslog
+  labels:
+    {{- include "unifi.labels" . | nindent 4 }}
+    {{- if .Values.syslogService.labels }}
+    {{- toYaml .Values.syslogService.labels | nindent 4 }}
+    {{- end }}
+  {{- with .Values.syslogService.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+{{- if (or (eq .Values.syslogService.type "ClusterIP") (empty .Values.syslogService.type)) }}
+  type: ClusterIP
+  {{- if .Values.syslogService.clusterIP }}
+  clusterIP: {{ .Values.syslogService.clusterIP }}
+  {{- end }}
+{{- else if eq .Values.syslogService.type "LoadBalancer" }}
+  type: {{ .Values.syslogService.type }}
+  {{- if .Values.syslogService.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.syslogService.loadBalancerIP }}
+  {{- end }}
+  {{- if .Values.syslogService.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+    {{- toYaml .Values.syslogService.loadBalancerSourceRanges | nindent 4 }}
+  {{- end -}}
+{{- else }}
+  type: {{ .Values.syslogService.type }}
+{{- end }}
+  {{- if .Values.syslogService.externalIPs }}
+  externalIPs:
+    {{- toYaml .Values.syslogService.externalIPs | nindent 4 }}
+  {{- end }}
+  {{- if .Values.syslogService.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.syslogService.externalTrafficPolicy }}
+  {{- end }}
+  ports:
+    - port: {{ .Values.syslogService.port }}
+      targetPort: syslog
+      protocol: UDP
+      name: syslog
+      {{- if (and (eq .Values.syslogService.type "NodePort") (not (empty .Values.syslogService.nodePort))) }}
+      nodePort: {{.Values.syslogService.nodePort}}
+      {{- end }}
+  selector:
+    {{- include "unifi.selectorLabels" . | nindent 4 }}
+{{- end }}

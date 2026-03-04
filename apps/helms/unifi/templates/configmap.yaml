@@ -1,0 +1,10 @@
+{{- if .Values.extraConfigFiles }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ template "unifi.fullname" . }}
+  labels:
+    {{- include "unifi.labels" . | nindent 4 }}
+data:
+  {{- toYaml .Values.extraConfigFiles | nindent 2 }}
+{{- end }}
