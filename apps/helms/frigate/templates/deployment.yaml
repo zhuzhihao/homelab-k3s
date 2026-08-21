@@ -45,7 +45,7 @@ spec:
             {{- end }}
           ports:
             - name: http
-              containerPort: 5000
+              containerPort: 8971
               protocol: TCP
             - name: rtmp
               containerPort: 1935
