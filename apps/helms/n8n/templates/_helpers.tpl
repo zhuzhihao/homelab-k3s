@@ -94,6 +94,21 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 
+{{/* Resolved task runner auth token (used by the chart-managed secret and its checksum annotation) */}}
+{{- define "n8n.runnerAuthToken" -}}
+{{- .Values.runner.authToken | default (randAlphaNum 32) -}}
+{{- end -}}
+
+{{/* Name of the Secret holding the task runner auth token */}}
+{{- define "n8n.runnerAuthSecretName" -}}
+{{- .Values.runner.existingSecret | default (printf "%s-runner-auth" (include "n8n.fullname" .)) -}}
+{{- end -}}
+
+{{/* Key of the task runner auth token inside the Secret */}}
+{{- define "n8n.runnerAuthSecretKey" -}}
+{{- .Values.runner.existingSecretKey | default "authToken" -}}
+{{- end -}}
+
 {{/* Validate Valkey/Redis configuration when webhooks are enabled*/}}
 {{- define "n8n.validateValkey" -}}
 {{- $envVars := fromYaml (include "toEnvVars" (dict "values" .Values.main.config "prefix" "")) -}}

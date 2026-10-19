@@ -30,6 +30,9 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ print .Values.main | sha256sum }}
+        {{- if and .Values.runner.enabled (not .Values.runner.existingSecret) }}
+        checksum/runner-auth: {{ include "n8n.runnerAuthToken" . | sha256sum }}
+        {{- end }}
         {{- with .Values.main.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -72,11 +75,34 @@ spec:
             - secretRef:
                 name: {{ include "n8n.fullname" . }}-app-secret
             {{- end }}
-          env: {{ not (empty .Values.main.extraEnv) | ternary nil "[]" }}
+          {{- if or .Values.runner.enabled .Values.main.extraEnv }}
+          env:
+            {{- if .Values.runner.enabled }}
+            - name: N8N_RUNNERS_ENABLED
+              value: "true"
+            - name: N8N_RUNNERS_MODE
+              value: "external"
+            - name: N8N_RUNNERS_BROKER_LISTEN_ADDRESS
+              value: "0.0.0.0"
+            {{- if ne (int .Values.runner.brokerPort) 5679 }}
+            - name: N8N_RUNNERS_BROKER_PORT
+              value: {{ .Values.runner.brokerPort | quote }}
+            {{- end }}
+            {{- if .Values.runner.nativePythonRunner }}
+            - name: N8N_NATIVE_PYTHON_RUNNER
+              value: "true"
+            {{- end }}
+            - name: N8N_RUNNERS_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "n8n.runnerAuthSecretName" . }}
+                  key: {{ include "n8n.runnerAuthSecretKey" . }}
+            {{- end }}
             {{- range $key, $value := .Values.main.extraEnv }}
             - name: {{ $key }}
               {{- toYaml $value | nindent 14 }}
             {{- end }}
+          {{- end }}
           lifecycle:
             {{- toYaml .Values.main.lifecycle | nindent 12 }}
           ports:
@@ -99,6 +125,43 @@ spec:
           {{- if .Values.main.extraVolumeMounts }}
             {{- toYaml .Values.main.extraVolumeMounts | nindent 12 }}
           {{- end }}
+        {{- if .Values.runner.enabled }}
+        - name: task-runners
+          securityContext:
+            {{- toYaml .Values.runner.securityContext | nindent 12 }}
+          image: "{{ .Values.runner.image.repository }}:{{ .Values.runner.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.runner.image.pullPolicy | default "IfNotPresent" }}
+          env:
+            - name: N8N_RUNNERS_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "n8n.runnerAuthSecretName" . }}
+                  key: {{ include "n8n.runnerAuthSecretKey" . }}
+            - name: N8N_RUNNERS_TASK_BROKER_URI
+              value: {{ printf "http://127.0.0.1:%v" .Values.runner.brokerPort | quote }}
+            - name: N8N_RUNNERS_MAX_CONCURRENCY
+              value: {{ .Values.runner.maxConcurrency | quote }}
+            {{- range $key, $value := .Values.runner.extraEnv }}
+            - name: {{ $key }}
+              {{- toYaml $value | nindent 14 }}
+            {{- end }}
+          ports:
+            - name: health
+              containerPort: {{ .Values.runner.launcherHealthCheckPort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: health
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: health
+            initialDelaySeconds: 5
+          resources:
+            {{- toYaml .Values.runner.resources | nindent 12 }}
+        {{- end }}
       {{- with .Values.hostAliases }}
       hostAliases:
         {{- toYaml . | nindent 8 }}

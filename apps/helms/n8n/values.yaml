@@ -3,10 +3,11 @@
 # 1. Global and chart wide values, like the image repository, image tag, etc.
 # 2. Ingress, (default is nginx, but you can change it to your own ingress controller)
 # 3. Main n8n app configuration + kubernetes specific settings
-# 4. Worker related settings + kubernetes specific settings
-# 5. Webhook related settings + kubernetes specific settings
-# 6. Raw Resources to pass through your own manifests like GatewayAPI, ServiceMonitor etc.
-# 7. Valkey/Redis related settings and kubernetes specific settings
+# 4. Task runner sidecar (external mode) settings + kubernetes specific settings
+# 5. Worker related settings + kubernetes specific settings
+# 6. Webhook related settings + kubernetes specific settings
+# 7. Raw Resources to pass through your own manifests like GatewayAPI, ServiceMonitor etc.
+# 8. Valkey/Redis related settings and kubernetes specific settings
 
 #
 # Global common config for this entire n8n deployment
@@ -268,6 +269,67 @@ main:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+# # # # # # # # # # # # # # # #
+#
+# Task runner sidecar (external mode) settings
+#
+# Adds a task runners sidecar container to the main n8n pod and configures n8n
+# for external mode. See
+# https://docs.n8n.io/hosting/configuration/task-runners/#external-mode
+#
+# The chart injects these env vars into the main n8n container:
+#   N8N_RUNNERS_ENABLED=true, N8N_RUNNERS_MODE=external,
+#   N8N_RUNNERS_BROKER_LISTEN_ADDRESS=0.0.0.0, N8N_RUNNERS_AUTH_TOKEN=<token>
+#   and N8N_NATIVE_PYTHON_RUNNER=true (when nativePythonRunner is enabled).
+# The sidecar then talks to the task broker in the same pod (localhost:5679).
+#
+# NOTE: the runners image version must match the n8n image version (>= 1.111.0).
+# NOTE: in queue mode every worker needs its own runner sidecar too; this chart
+#       currently only injects the sidecar into the main deployment.
+runner:
+  enabled: true
+
+  # Runners sidecar image (custom image with extra dependencies baked in)
+  image:
+    repository: zhuzhihao/n8n-runners-custom
+    tag: "2.9.4-tailcat0.7.0"
+    pullPolicy: IfNotPresent
+
+  # Shared secret the runners use to authenticate against the broker.
+  # If left empty, a random token is generated on every install/upgrade
+  # (pods get rolled accordingly) — set a fixed value for stable upgrades.
+  authToken: ""
+
+  # Alternatively, use an existing Secret holding the token:
+  #   existingSecret: my-runner-secret
+  #   existingSecretKey: authToken
+  existingSecret: ""
+  existingSecretKey: ""
+
+  # Port the task broker listens on inside the n8n main container (5679 default)
+  brokerPort: 5679
+
+  # Enable the native Python runner on the n8n main process
+  nativePythonRunner: true
+
+  # Health check endpoint of the task runner launcher inside the runners image
+  # (exposed on the sidecar as container port `health`, probed via /healthz)
+  launcherHealthCheckPort: 5680
+
+  # Maximum number of concurrent tasks per runner
+  maxConcurrency: 5
+
+  # Container securityContext for the sidecar (falls back to the pod-level
+  # runAsUser/runAsGroup/fsGroup, which already match the image's uid 1000)
+  securityContext: {}
+
+  resources: {}
+
+  # Extra environmental variables for the runners sidecar container
+  extraEnv: {}
+  #   N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT:
+  #     value: "15"
 
 # # # # # # # # # # # # # # # #
 #
