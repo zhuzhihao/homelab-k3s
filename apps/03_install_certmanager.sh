@@ -1,11 +1,14 @@
 #!/bin/bash
 
-helm install \
+# v1.21.x is required: cert-manager < v1.12.16 misbuilds the Cloudflare cleanup
+# URL ("/zones//dns_records/...") since Cloudflare stopped returning zone_id on
+# DNS records (cert-manager issue #7540), which breaks DNS-01 wildcard issuance.
+helm upgrade --install \
      cert-manager jetstack/cert-manager \
      --namespace cert-manager \
-     --version v1.5.0 \
+     --version v1.21.2 \
      --create-namespace \
-     --set installCRDs=true
+     --set crds.enabled=true
 
 cat <<EOF |kubectl apply -f -
 ---

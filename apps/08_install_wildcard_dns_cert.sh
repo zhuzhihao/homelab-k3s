@@ -8,14 +8,37 @@ set -euo pipefail
 
 SECRET_NS=cert-manager
 SECRET_NAME=cloudflare-api-token
+SECRET_KEY=api-token
+
+secret_missing() {
+  cat <<EOF
+[ERROR] Secret $SECRET_NS/$SECRET_NAME is missing (or has no usable $SECRET_KEY).
+        Wildcard certificate for *.zhuzhihao.me will NOT be created.
+
+  How to fix:
+    1. Create a Cloudflare API token (My Profile -> API Tokens -> Create Token):
+         Permissions: Zone -> DNS -> Edit
+         Zone Resources: Include -> Specific zone -> zhuzhihao.me
+    2. Fill in and apply the secret template:
+         cp apps/certmanager/cloudflare_api_token_secret_example.yaml /tmp/cloudflare-api-token.yaml
+         \$EDITOR /tmp/cloudflare-api-token.yaml
+         kubectl apply -f /tmp/cloudflare-api-token.yaml
+    3. Re-run this script (or apps/run.sh).
+EOF
+  exit 1
+}
 
 if ! kubectl -n "$SECRET_NS" get secret "$SECRET_NAME" >/dev/null 2>&1; then
-  echo "[ERROR] Secret $SECRET_NS/$SECRET_NAME is missing."
-  echo "Create a Cloudflare API token (Zone -> DNS -> Edit, scoped to zhuzhihao.me),"
-  echo "fill in apps/certmanager/cloudflare_api_token_secret_example.yaml and run:"
-  echo "  kubectl apply -f <your-filled-in-file>"
-  exit 1
+  secret_missing
 fi
+
+TOKEN=$(kubectl -n "$SECRET_NS" get secret "$SECRET_NAME" \
+  -o go-template="{{index .data \"$SECRET_KEY\" | base64decode}}" 2>/dev/null || true)
+if [ -z "$TOKEN" ] || [ "$TOKEN" = "replace-with-cloudflare-api-token" ]; then
+  secret_missing
+fi
+unset TOKEN
+echo "Cloudflare API token secret $SECRET_NS/$SECRET_NAME found."
 
 # Traefik moved its CRD API group from traefik.containo.us to traefik.io in v2.10.
 if kubectl get crd tlsstores.traefik.io >/dev/null 2>&1; then
